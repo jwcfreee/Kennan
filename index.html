@@ -298,7 +298,153 @@ section{padding:120px 6%;}
   .ai-featured-media img{height:auto;aspect-ratio:16/10;object-fit:cover;}
 }
 
+/* ===== PROJECT MODAL IMAGE CAROUSEL ===== */
 
+.project-modal-media {
+  position: relative;
+}
+
+.modal-gallery-image {
+  width: 100%;
+  height: 100%;
+  max-height: 560px;
+  object-fit: contain;
+  display: block;
+  background: #03040a;
+}
+
+.modal-gallery-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  border: 1px solid rgba(167, 139, 250, 0.35);
+
+  background: rgba(5, 5, 18, 0.9);
+  color: white;
+
+  font-size: 1.7rem;
+  cursor: pointer;
+
+  backdrop-filter: blur(10px);
+  transition: 0.2s ease;
+}
+
+.modal-gallery-btn:hover {
+  background: #a78bfa;
+  color: #050510;
+  transform: translateY(-50%) scale(1.08);
+}
+
+.modal-gallery-prev {
+  left: 20px;
+}
+
+.modal-gallery-next {
+  right: 20px;
+}
+
+.modal-gallery-dots {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  z-index: 20;
+
+  padding: 8px 11px;
+
+  background: rgba(5, 5, 15, 0.72);
+  border-radius: 30px;
+
+  backdrop-filter: blur(8px);
+}
+
+.modal-gallery-dot {
+  width: 7px;
+  height: 7px;
+
+  border: 0;
+  border-radius: 50%;
+
+  background: rgba(255,255,255,.35);
+  cursor: pointer;
+
+  padding: 0;
+
+  transition: 0.2s ease;
+}
+
+.modal-gallery-dot.active {
+  width: 23px;
+  border-radius: 20px;
+  background: #a78bfa;
+}
+
+/* image counter */
+.modal-gallery-counter {
+  position: absolute;
+  right: 20px;
+  bottom: 18px;
+
+  z-index: 20;
+
+  padding: 7px 10px;
+
+  border-radius: 6px;
+
+  background: rgba(5,5,15,.72);
+
+  color: #ddd;
+
+  font-family: "JetBrains Mono", monospace;
+  font-size: .65rem;
+
+  backdrop-filter: blur(8px);
+}
+
+
+/* ===== PHONE ===== */
+
+@media (max-width: 600px) {
+
+  .modal-gallery-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1.35rem;
+  }
+
+  .modal-gallery-prev {
+    left: 10px;
+  }
+
+  .modal-gallery-next {
+    right: 10px;
+  }
+
+  .modal-gallery-dots {
+    bottom: 12px;
+  }
+
+  .modal-gallery-counter {
+    right: 12px;
+    bottom: 12px;
+  }
+
+}
 /* UNIFIED FEATURED PROJECT ROWS */
 .case-project{
   padding:0;
@@ -890,6 +1036,419 @@ footer{background:var(--bg);border-top:1px solid var(--border);color:var(--muted
   }
 
 }
+
+/* =========================================================
+   CLICKABLE FEATURED PROJECTS — CASE STUDY MODAL
+   + PHONE FRIENDLY MAIN PORTFOLIO
+========================================================= */
+
+.case-project,
+.brevea-card{
+  position:relative;
+}
+
+.project-clickable{
+  cursor:pointer;
+}
+
+.project-clickable:focus-visible{
+  outline:2px solid var(--violet);
+  outline-offset:4px;
+}
+
+/* subtle desktop hint */
+.project-clickable::after{
+  content:"View Project ↗";
+  position:absolute;
+  right:16px;
+  bottom:14px;
+  z-index:30;
+  padding:6px 10px;
+  border-radius:6px;
+  background:rgba(6,6,16,.88);
+  border:1px solid var(--border2);
+  color:var(--violet);
+  font:600 .58rem 'JetBrains Mono',monospace;
+  letter-spacing:.5px;
+  opacity:0;
+  transform:translateY(5px);
+  pointer-events:none;
+  transition:.22s ease;
+}
+
+.project-clickable:hover::after{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* modal shell */
+.project-modal{
+  position:fixed;
+  inset:0;
+  z-index:5000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:26px;
+  background:rgba(2,3,10,.90);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  transition:opacity .25s ease, visibility .25s ease;
+}
+
+.project-modal.active{
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+}
+
+.project-modal-card{
+  width:min(1080px,96vw);
+  max-height:91vh;
+  overflow:auto;
+  background:#080812;
+  border:1px solid var(--border2);
+  border-radius:18px;
+  box-shadow:0 40px 120px rgba(0,0,0,.72);
+  transform:translateY(20px) scale(.985);
+  transition:transform .32s var(--ease);
+}
+
+.project-modal.active .project-modal-card{
+  transform:translateY(0) scale(1);
+}
+
+.project-modal-media{
+  min-height:360px;
+  max-height:560px;
+  background:#03040a;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+.project-modal-media img,
+.project-modal-media video{
+  width:100%;
+  max-height:560px;
+  object-fit:contain;
+  display:block;
+  background:#03040a;
+}
+
+.project-modal-placeholder{
+  min-height:360px;
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  text-align:center;
+  padding:30px;
+  color:var(--muted);
+  background:
+    radial-gradient(circle at 50% 40%,rgba(167,139,250,.14),transparent 38%),
+    #080a14;
+}
+
+.project-modal-placeholder .big{
+  font-size:3rem;
+}
+
+.project-modal-placeholder strong{
+  color:var(--text);
+  font-size:1rem;
+}
+
+.project-modal-content{
+  padding:34px 42px 42px;
+}
+
+.project-modal-eyebrow{
+  color:var(--teal);
+  font:700 .62rem 'JetBrains Mono',monospace;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  margin-bottom:8px;
+}
+
+.project-modal-title{
+  font-size:clamp(1.8rem,4vw,2.7rem);
+  line-height:1.08;
+  letter-spacing:-1px;
+  color:var(--text);
+  margin-bottom:16px;
+}
+
+.project-modal-description{
+  color:var(--muted);
+  font-size:.94rem;
+  line-height:1.9;
+  max-width:860px;
+  margin-bottom:26px;
+}
+
+.project-modal-label{
+  color:#9d9db7;
+  font:700 .6rem 'JetBrains Mono',monospace;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+
+.project-modal-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:26px;
+}
+
+.project-modal-tag{
+  padding:6px 11px;
+  border:1px solid var(--border2);
+  border-radius:6px;
+  background:rgba(255,255,255,.025);
+  color:var(--text);
+  font-size:.7rem;
+  font-weight:700;
+}
+
+.project-modal-launch{
+  width:100%;
+  min-height:48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:8px;
+  background:#f4f4f6;
+  color:#070710;
+  text-decoration:none;
+  font-weight:800;
+  font-size:.86rem;
+  transition:.22s ease;
+}
+
+.project-modal-launch:hover{
+  background:#fff;
+  transform:translateY(-2px);
+}
+
+.project-modal-close{
+  position:fixed;
+  top:20px;
+  right:22px;
+  z-index:5100;
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  border:1px solid var(--border2);
+  background:rgba(8,8,18,.96);
+  color:#fff;
+  font-size:1.5rem;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:.2s ease;
+}
+
+.project-modal-close:hover{
+  background:var(--violet);
+  color:#060610;
+  border-color:var(--violet);
+}
+
+body.modal-open{
+  overflow:hidden;
+}
+
+/* Main portfolio phone responsiveness */
+@media(max-width:900px){
+  nav{
+    padding:12px 4%;
+    gap:12px;
+  }
+
+  .nav-links{
+    display:flex !important;
+    flex:1;
+    justify-content:flex-start;
+    overflow-x:auto;
+    white-space:nowrap;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  .nav-links::-webkit-scrollbar{
+    display:none;
+  }
+
+  .nav-links a{
+    flex:0 0 auto;
+    font-size:.62rem;
+    padding:7px 9px;
+  }
+
+  .nav-divider{
+    display:none;
+  }
+
+  .case-layout{
+    grid-template-columns:1fr !important;
+    min-height:0;
+  }
+
+  .case-media,
+  .anime-showcase-media{
+    width:100% !important;
+    height:auto !important;
+    aspect-ratio:16/10;
+    border-right:none;
+    border-bottom:1px solid var(--border);
+  }
+
+  .case-info{
+    grid-template-columns:1fr !important;
+    gap:22px !important;
+    padding:24px 22px !important;
+  }
+
+  .brevea-layout{
+    grid-template-columns:1fr;
+  }
+
+  .brevea-slider-wrap,
+  .brevea-slider{
+    width:100% !important;
+  }
+
+  .brevea-info{
+    padding:24px 22px;
+  }
+
+  .project-clickable::after{
+    display:none;
+  }
+
+  .project-modal{
+    padding:10px;
+    align-items:flex-end;
+  }
+
+  .project-modal-card{
+    width:100%;
+    max-height:94vh;
+    border-radius:18px 18px 10px 10px;
+  }
+
+  .project-modal-media{
+    min-height:220px;
+    max-height:42vh;
+  }
+
+  .project-modal-media img,
+  .project-modal-media video{
+    max-height:42vh;
+  }
+
+  .project-modal-placeholder{
+    min-height:220px;
+  }
+
+  .project-modal-content{
+    padding:25px 20px 28px;
+  }
+
+  .project-modal-close{
+    position:absolute;
+    top:14px;
+    right:14px;
+    width:40px;
+    height:40px;
+  }
+}
+
+@media(max-width:560px){
+  section{
+    padding:72px 18px !important;
+  }
+
+  nav{
+    padding:10px 14px;
+  }
+
+  .logo{
+    font-size:.72rem;
+  }
+
+  .nav-links a{
+    font-size:.57rem;
+    padding:6px 8px;
+  }
+
+  #hero{
+    padding:100px 18px 64px !important;
+  }
+
+  .hero-name{
+    font-size:2.7rem;
+    letter-spacing:-1.4px;
+  }
+
+  .hero-btns{
+    display:grid;
+    grid-template-columns:1fr;
+  }
+
+  .btn{
+    width:100%;
+    text-align:center;
+  }
+
+  .about-photo-card{
+    position:static;
+  }
+
+  .services-grid,
+  .tools-grid{
+    grid-template-columns:1fr;
+  }
+
+  .cert-grid,
+  .remote-grid{
+    grid-template-columns:1fr;
+  }
+
+  .contact-form{
+    padding:24px 20px;
+  }
+
+  .case-menu-item,
+  .bsl-item{
+    padding:11px 12px;
+  }
+
+  .project-modal-title{
+    font-size:1.65rem;
+  }
+
+  .project-modal-description{
+    font-size:.86rem;
+    line-height:1.75;
+  }
+
+  .project-modal-tag{
+    font-size:.64rem;
+    padding:5px 8px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1165,33 +1724,6 @@ footer{background:var(--bg);border-top:1px solid var(--border);color:var(--muted
 
 </div>
 
- <!-- AI AUDITOR -->
-  <div class="proj-card case-project reveal d1">
-    <div class="case-layout">
-      <div class="case-media">
-        <div class="case-badge">AI &amp; AUTOMATION</div>
-        <img src="assets/images/ai-auditor-showcase.png" alt="AI Auditor dashboard"/>
-      </div>
-      <div class="case-info">
-        <div class="case-copy">
-          <div class="proj-client">AI &amp; Automation · E-Commerce</div>
-          <h4>The AI Auditor</h4>
-          <p>Built a product-data auditing workflow designed to catch catalog inconsistencies before they reach the storefront. It checks for missing information, pricing issues, duplicate SKUs, image gaps, and SEO problems to reduce repetitive manual review.</p>
-          <div class="proj-tags">
-            <span class="ptag">Python</span><span class="ptag">Shopify</span><span class="ptag">Automation</span><span class="ptag">Data Validation</span><span class="ptag">AI Workflow</span>
-          </div>
-          <div class="case-actions"><a href="projects/ai-auditor.html" target="_blank" class="case-launch">↗ Launch AI Auditor</a></div>
-        </div>
-        <div class="case-menu">
-          <div class="case-menu-item"><span class="case-menu-num">01</span><span class="case-menu-label">Audit Dashboard</span></div>
-          <div class="case-menu-item"><span class="case-menu-num">02</span><span class="case-menu-label">Product Comparison</span></div>
-          <div class="case-menu-item"><span class="case-menu-num">03</span><span class="case-menu-label">AI Workflow</span></div>
-          <div class="case-menu-item"><span class="case-menu-num">04</span><span class="case-menu-label">Results &amp; Impact</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- Brevea featured with slider -->
   <div class="proj-card brevea-card reveal d1" style="margin-bottom:28px;">
     <div class="brevea-layout">
@@ -1199,10 +1731,10 @@ footer{background:var(--bg);border-top:1px solid var(--border);color:var(--muted
       <div class="brevea-slider-wrap">
         <div class="brevea-badge">GRAPHIC DESIGN</div>
         <div class="brevea-slider" id="breveaSlider">
-          <div class="brevea-slide active"><img src="assets/images/brevea/brevea-matcha (4).png" alt="Your Matcha Moment" onerror="this.parentElement.innerHTML='<div class=\'slide-fb\'>🍵<span>brevea-1.jpg</span></div>'"/></div>
-          <div class="brevea-slide"><img src="assets/images/brevea/brevea-matcha (3).png" alt="A Little Pause" onerror="this.parentElement.innerHTML='<div class=\'slide-fb\'>🏪<span>brevea-2.jpg</span></div>'"/></div>
-          <div class="brevea-slide"><img src="assets/images/brevea/brevea-matcha.png" alt="Sweet Little Moment" onerror="this.parentElement.innerHTML='<div class=\'slide-fb\'>🍪<span>brevea-3.jpg</span></div>'"/></div>
-          <div class="brevea-slide"><img src="assets/images/brevea/brevea-matcha (1).png" alt="A Moment Just For You" onerror="this.parentElement.innerHTML='<div class=\'slide-fb\'>🥤<span>brevea-4.jpg</span></div>'"/></div>
+          <div class="brevea-slide active"><img src="assets/images/Brevea/brevea-matcha (4).png" alt="Your Matcha Moment" onerror="this.parentElement.innerHTML='<div class=\'slide-fb\'>🍵<span>brevea-1.jpg</span></div>'"/></div>
+          <div class="brevea-slide"><img src="assets/images/Brevea/brevea-matcha (3).png" alt="A Little Pause" onerror="this.parentElement.innerHTML='<div class=\'slide-fb\'>🏪<span>brevea-2.jpg</span></div>'"/></div>
+          <div class="brevea-slide"><img src="assets/images/Brevea/brevea-matcha.png" alt="Sweet Little Moment" onerror="this.parentElement.innerHTML='<div class=\'slide-fb\'>🍪<span>brevea-3.jpg</span></div>'"/></div>
+          <div class="brevea-slide"><img src="assets/images/Brevea/brevea-matcha (1).png" alt="A Moment Just For You" onerror="this.parentElement.innerHTML='<div class=\'slide-fb\'>🥤<span>brevea-4.jpg</span></div>'"/></div>
         </div>
         <button class="sl-btn sl-prev" onclick="moveSlide(-1)">‹</button>
         <button class="sl-btn sl-next" onclick="moveSlide(1)">›</button>
@@ -1229,7 +1761,65 @@ footer{background:var(--bg);border-top:1px solid var(--border);color:var(--muted
       </div>
     </div>
   </div>
- <!-- SHORT CLIP CONTENT -->
+
+  <!-- AI AUDITOR -->
+  <div class="proj-card case-project reveal d1">
+    <div class="case-layout">
+      <div class="case-media">
+        <div class="case-badge">AI &amp; AUTOMATION</div>
+        <img src="assets/images/ai-auditor-showcase.png" alt="AI Auditor dashboard"/>
+      </div>
+      <div class="case-info">
+        <div class="case-copy">
+          <div class="proj-client">AI &amp; Automation · E-Commerce</div>
+          <h4>The AI Auditor</h4>
+          <p>Built a product-data auditing workflow designed to catch catalog inconsistencies before they reach the storefront. It checks for missing information, pricing issues, duplicate SKUs, image gaps, and SEO problems to reduce repetitive manual review.</p>
+          <div class="proj-tags">
+            <span class="ptag">Python</span><span class="ptag">Shopify</span><span class="ptag">Automation</span><span class="ptag">Data Validation</span><span class="ptag">AI Workflow</span>
+          </div>
+          <div class="case-actions"><a href="projects/ai-auditor.html" target="_blank" class="case-launch">↗ Launch AI Auditor</a></div>
+        </div>
+        <div class="case-menu">
+          <div class="case-menu-item"><span class="case-menu-num">01</span><span class="case-menu-label">Audit Dashboard</span></div>
+          <div class="case-menu-item"><span class="case-menu-num">02</span><span class="case-menu-label">Product Comparison</span></div>
+          <div class="case-menu-item"><span class="case-menu-num">03</span><span class="case-menu-label">AI Workflow</span></div>
+          <div class="case-menu-item"><span class="case-menu-num">04</span><span class="case-menu-label">Results &amp; Impact</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STORE OPERATIONS -->
+  <div class="proj-card case-project reveal d2">
+    <div class="case-layout">
+      <div class="case-media">
+        <div class="case-badge">E-COMMERCE · SHOPIFY</div>
+        <div class="case-media-placeholder">
+          <div class="big">🛍️</div>
+          <strong>300+ SKU Store Operations</strong>
+          <span>Replace this panel with your Shopify / catalog screenshot</span>
+        </div>
+      </div>
+      <div class="case-info">
+        <div class="case-copy">
+          <div class="proj-client">eCommerce · Shopify</div>
+          <h4>300+ SKU Store Operations</h4>
+          <p>Managed a complete product listing and store-management workflow for 300+ active Shopify SKUs, maintaining organized collections, structured inventory, SEO-focused descriptions, and high data accuracy.</p>
+          <div class="proj-tags">
+            <span class="ptag">Shopify</span><span class="ptag">DSers</span><span class="ptag">SEO</span><span class="ptag">Data QC</span><span class="ptag">Store Management</span>
+          </div>
+        </div>
+        <div class="case-menu">
+          <div class="case-menu-item"><span class="case-menu-num">01</span><span class="case-menu-label">Product Catalog</span></div>
+          <div class="case-menu-item"><span class="case-menu-num">02</span><span class="case-menu-label">Listing &amp; SEO</span></div>
+          <div class="case-menu-item"><span class="case-menu-num">03</span><span class="case-menu-label">Inventory Management</span></div>
+          <div class="case-menu-item"><span class="case-menu-num">04</span><span class="case-menu-label">Results &amp; Scale</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHORT CLIP CONTENT -->
   <div class="proj-card case-project reveal d3">
     <div class="case-layout">
       <div class="case-media contain podcast-slider">
@@ -1260,6 +1850,17 @@ footer{background:var(--bg);border-top:1px solid var(--border);color:var(--muted
           Your browser does not support HTML5 video.
         </video>
 
+        <!-- VIDEO 3 -->
+        <video
+          class="podcast-video"
+          controls
+          preload="metadata"
+          playsinline
+        >
+          <source src="assets/videos/promotionalvideo.mp4" type="video/mp4">
+          Your browser does not support HTML5 video.
+        </video>
+
         <!-- PREVIOUS -->
         <button
           type="button"
@@ -1282,7 +1883,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);color:var(--muted
 
         <!-- COUNTER -->
         <div class="podcast-counter">
-          <span id="podcastCurrent">1</span> / 2
+          <span id="podcastCurrent">1</span> / 3
         </div>
 
       </div>
@@ -1300,35 +1901,6 @@ footer{background:var(--bg);border-top:1px solid var(--border);color:var(--muted
           <div class="case-menu-item"><span class="case-menu-num">02</span><span class="case-menu-label">Social Media Short</span></div>
           <div class="case-menu-item"><span class="case-menu-num">03</span><span class="case-menu-label">Promotional Edit</span></div>
           <div class="case-menu-item"><span class="case-menu-num">04</span><span class="case-menu-label">Content Pipeline</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- STORE OPERATIONS -->
-  <div class="proj-card case-project reveal d2">
-    <div class="case-layout">
-      <div class="case-media">
-        <div class="case-badge">E-COMMERCE · SHOPIFY</div>
-        <div class="case-media-placeholder">
-          <div class="big">🛍️</div>
-          <strong>300+ SKU Store Operations</strong>
-          <span>Replace this panel with your Shopify / catalog screenshot</span>
-        </div>
-      </div>
-      <div class="case-info">
-        <div class="case-copy">
-          <div class="proj-client">eCommerce · Shopify</div>
-          <h4>300+ SKU Store Operations</h4>
-          <p>Managed a complete product listing and store-management workflow for 300+ active Shopify SKUs, maintaining organized collections, structured inventory, SEO-focused descriptions, and high data accuracy.</p>
-          <div class="proj-tags">
-            <span class="ptag">Shopify</span><span class="ptag">DSers</span><span class="ptag">SEO</span><span class="ptag">Data QC</span><span class="ptag">Store Management</span>
-          </div>
-        </div>
-        <div class="case-menu">
-          <div class="case-menu-item"><span class="case-menu-num">01</span><span class="case-menu-label">Product Catalog</span></div>
-          <div class="case-menu-item"><span class="case-menu-num">02</span><span class="case-menu-label">Listing &amp; SEO</span></div>
-          <div class="case-menu-item"><span class="case-menu-num">03</span><span class="case-menu-label">Inventory Management</span></div>
-          <div class="case-menu-item"><span class="case-menu-num">04</span><span class="case-menu-label">Results &amp; Scale</span></div>
         </div>
       </div>
     </div>
@@ -1500,6 +2072,29 @@ footer{background:var(--bg);border-top:1px solid var(--border);color:var(--muted
   <p class="ft-sub">Operations Manager · Graphic Designer · AI Specialist · Video Editor</p>
 </footer>
 
+<!-- CLICKABLE PROJECT CASE-STUDY MODAL -->
+<div class="project-modal" id="projectModal" aria-hidden="true">
+  <button class="project-modal-close" id="projectModalClose" type="button" aria-label="Close project">×</button>
+
+  <div class="project-modal-card" role="dialog" aria-modal="true" aria-labelledby="projectModalTitle">
+    <div class="project-modal-media" id="projectModalMedia"></div>
+
+    <div class="project-modal-content">
+      <div class="project-modal-eyebrow" id="projectModalEyebrow"></div>
+      <h2 class="project-modal-title" id="projectModalTitle"></h2>
+      <p class="project-modal-description" id="projectModalDescription"></p>
+
+      <div class="project-modal-label">Tech Stack / Skills</div>
+      <div class="project-modal-tags" id="projectModalTags"></div>
+
+      <a class="project-modal-launch" id="projectModalLaunch" href="#" target="_blank" rel="noopener">
+        ↗ Live Demo / Open Project
+      </a>
+    </div>
+  </div>
+</div>
+
+
 <script>
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => {
@@ -1574,5 +2169,485 @@ function changePodcast(direction) {
   }
 }
 </script>
+
+<script>
+/* =========================================================
+   CLICKABLE PROJECT CASE-STUDIES
+   Automatically works with your existing project cards.
+========================================================= */
+(() => {
+  const modal = document.getElementById('projectModal');
+  const cardBox = modal?.querySelector('.project-modal-card');
+  const closeBtn = document.getElementById('projectModalClose');
+  const mediaBox = document.getElementById('projectModalMedia');
+  const eyebrow = document.getElementById('projectModalEyebrow');
+  const title = document.getElementById('projectModalTitle');
+  const description = document.getElementById('projectModalDescription');
+  const tagsBox = document.getElementById('projectModalTags');
+  const launch = document.getElementById('projectModalLaunch');
+
+  if (!modal) return;
+
+  const projectCards = document.querySelectorAll('.case-project, .brevea-card');
+
+  projectCards.forEach(card => {
+    card.classList.add('project-clickable');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('role', 'button');
+    card.setAttribute('aria-label', 'Open project details');
+
+    card.addEventListener('click', event => {
+      // Preserve existing controls instead of opening the modal.
+      if (event.target.closest('a, button, video, .sl-dot, .bsl-item, .case-menu-item')) {
+        return;
+      }
+      openProject(card);
+    });
+
+    card.addEventListener('keydown', event => {
+      if ((event.key === 'Enter' || event.key === ' ') && event.target === card) {
+        event.preventDefault();
+        openProject(card);
+      }
+    });
+  });
+
+  function openProject(card) {
+    const projectTitle =
+      card.querySelector('.case-copy h4, .brevea-info h4, h4')?.textContent?.trim() ||
+      'Project';
+
+    const projectEyebrow =
+      card.querySelector('.proj-client, .case-badge, .brevea-badge')?.textContent?.trim() ||
+      'Featured Project';
+
+    const projectDescription =
+      card.querySelector('.case-copy p, .brevea-info p, .proj-body p')?.textContent?.trim() ||
+      '';
+
+    const projectTags = [...card.querySelectorAll('.ptag')]
+      .map(el => el.textContent.trim())
+      .filter(Boolean);
+
+    const projectLink =
+      card.querySelector('.case-launch, .ai-launch, .proj-launch')?.getAttribute('href') ||
+      '';
+
+    renderMedia(card, projectTitle);
+
+    eyebrow.textContent = projectEyebrow;
+    title.textContent = projectTitle;
+    description.textContent = projectDescription;
+
+    tagsBox.innerHTML = '';
+    projectTags.forEach(tag => {
+      const chip = document.createElement('span');
+      chip.className = 'project-modal-tag';
+      chip.textContent = tag;
+      tagsBox.appendChild(chip);
+    });
+
+    if (projectLink && projectLink !== '#') {
+      launch.href = projectLink;
+      launch.style.display = 'flex';
+    } else {
+      launch.removeAttribute('href');
+      launch.style.display = 'none';
+    }
+
+    modal.classList.add('active');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+
+    setTimeout(() => closeBtn.focus(), 60);
+  }
+
+  function renderMedia(card, projectTitle) {
+    mediaBox.innerHTML = '';
+
+    // Brevea: show whichever slider image is currently selected.
+    /* ==========================================
+   BREVEA MODAL GALLERY
+========================================== */
+
+const breveaImages = [
+  ...card.querySelectorAll('.brevea-slide img')
+];
+
+if (breveaImages.length > 1) {
+
+  let currentModalImage = 0;
+
+  /* Start from image selected on main page */
+
+  const activeSlide =
+    card.querySelector('.brevea-slide.active');
+
+  if (activeSlide) {
+
+    const slides =
+      [...card.querySelectorAll('.brevea-slide')];
+
+    const activeIndex =
+      slides.indexOf(activeSlide);
+
+    if (activeIndex >= 0) {
+      currentModalImage = activeIndex;
+    }
+
+  }
+
+
+  /* IMAGE */
+
+  const img =
+    document.createElement('img');
+
+  img.className =
+    'modal-gallery-image';
+
+  mediaBox.appendChild(img);
+
+
+  /* PREVIOUS */
+
+  const prev =
+    document.createElement('button');
+
+  prev.className =
+    'modal-gallery-btn modal-gallery-prev';
+
+  prev.type = 'button';
+
+  prev.innerHTML = '‹';
+
+  prev.setAttribute(
+    'aria-label',
+    'Previous image'
+  );
+
+  mediaBox.appendChild(prev);
+
+
+  /* NEXT */
+
+  const next =
+    document.createElement('button');
+
+  next.className =
+    'modal-gallery-btn modal-gallery-next';
+
+  next.type = 'button';
+
+  next.innerHTML = '›';
+
+  next.setAttribute(
+    'aria-label',
+    'Next image'
+  );
+
+  mediaBox.appendChild(next);
+
+
+  /* DOTS */
+
+  const dots =
+    document.createElement('div');
+
+  dots.className =
+    'modal-gallery-dots';
+
+  mediaBox.appendChild(dots);
+
+
+  /* COUNTER */
+
+  const counter =
+    document.createElement('div');
+
+  counter.className =
+    'modal-gallery-counter';
+
+  mediaBox.appendChild(counter);
+
+
+  /* CREATE DOTS */
+
+  breveaImages.forEach(
+    (sourceImage, index) => {
+
+      const dot =
+        document.createElement('button');
+
+      dot.className =
+        'modal-gallery-dot';
+
+      dot.type = 'button';
+
+      dot.setAttribute(
+        'aria-label',
+        `View image ${index + 1}`
+      );
+
+      dot.addEventListener(
+        'click',
+        (event) => {
+
+          event.stopPropagation();
+
+          currentModalImage = index;
+
+          updateModalGallery();
+
+        }
+      );
+
+      dots.appendChild(dot);
+
+    }
+  );
+
+
+  /* UPDATE IMAGE */
+
+  function updateModalGallery() {
+
+    const source =
+      breveaImages[currentModalImage];
+
+    img.src =
+      source.currentSrc ||
+      source.src;
+
+    img.alt =
+      source.alt ||
+      `${projectTitle} image ${currentModalImage + 1}`;
+
+    counter.textContent =
+      `${currentModalImage + 1} / ${breveaImages.length}`;
+
+
+    const allDots =
+      dots.querySelectorAll(
+        '.modal-gallery-dot'
+      );
+
+    allDots.forEach(
+      (dot, index) => {
+
+        dot.classList.toggle(
+          'active',
+          index === currentModalImage
+        );
+
+      }
+    );
+
+  }
+
+
+  /* PREVIOUS */
+
+  prev.addEventListener(
+    'click',
+    (event) => {
+
+      event.stopPropagation();
+
+      currentModalImage--;
+
+      if (currentModalImage < 0) {
+
+        currentModalImage =
+          breveaImages.length - 1;
+
+      }
+
+      updateModalGallery();
+
+    }
+  );
+
+
+  /* NEXT */
+
+  next.addEventListener(
+    'click',
+    (event) => {
+
+      event.stopPropagation();
+
+      currentModalImage++;
+
+      if (
+        currentModalImage >=
+        breveaImages.length
+      ) {
+
+        currentModalImage = 0;
+
+      }
+
+      updateModalGallery();
+
+    }
+  );
+
+
+  /* ==========================================
+     PHONE SWIPE
+  ========================================== */
+
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  mediaBox.addEventListener(
+    'touchstart',
+    (event) => {
+
+      touchStartX =
+        event.changedTouches[0].screenX;
+
+    },
+    { passive: true }
+  );
+
+
+  mediaBox.addEventListener(
+    'touchend',
+    (event) => {
+
+      touchEndX =
+        event.changedTouches[0].screenX;
+
+      const distance =
+        touchStartX - touchEndX;
+
+
+      /* swipe left */
+
+      if (distance > 50) {
+
+        currentModalImage++;
+
+        if (
+          currentModalImage >=
+          breveaImages.length
+        ) {
+
+          currentModalImage = 0;
+
+        }
+
+        updateModalGallery();
+
+      }
+
+
+      /* swipe right */
+
+      if (distance < -50) {
+
+        currentModalImage--;
+
+        if (currentModalImage < 0) {
+
+          currentModalImage =
+            breveaImages.length - 1;
+
+        }
+
+        updateModalGallery();
+
+      }
+
+    },
+    { passive: true }
+  );
+
+
+  /* INITIAL IMAGE */
+
+  updateModalGallery();
+
+  return;
+}
+
+    // Video project: put the active podcast video inside the modal.
+    const sourceEl =
+      card.querySelector('.podcast-video.active source') ||
+      card.querySelector('video source');
+
+    if (sourceEl) {
+      const video = document.createElement('video');
+      video.controls = true;
+      video.playsInline = true;
+      video.preload = 'metadata';
+
+      const source = document.createElement('source');
+      source.src = sourceEl.getAttribute('src');
+      source.type = sourceEl.getAttribute('type') || 'video/mp4';
+
+      video.appendChild(source);
+      mediaBox.appendChild(video);
+      return;
+    }
+
+    // Standard image projects (Anime, AI Auditor, etc.).
+    const sourceImage = card.querySelector('.case-media img, .proj-thumb img');
+
+    if (sourceImage) {
+      const img = document.createElement('img');
+      img.src = sourceImage.currentSrc || sourceImage.src;
+      img.alt = sourceImage.alt || projectTitle;
+      mediaBox.appendChild(img);
+      return;
+    }
+
+    // Store Operations or any project with no screenshot yet.
+    const placeholder = card.querySelector('.case-media-placeholder');
+    const fallback = document.createElement('div');
+    fallback.className = 'project-modal-placeholder';
+    fallback.innerHTML = `
+      <div class="big">${placeholder?.querySelector('.big')?.textContent || '✦'}</div>
+      <strong>${projectTitle}</strong>
+      <span>${placeholder?.querySelector('span')?.textContent || 'Project case study'}</span>
+    `;
+    mediaBox.appendChild(fallback);
+  }
+
+  function closeModal() {
+    modal.classList.remove('active');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('modal-open');
+
+    const video = mediaBox.querySelector('video');
+    if (video) video.pause();
+
+    setTimeout(() => {
+      if (!modal.classList.contains('active')) {
+        mediaBox.innerHTML = '';
+      }
+    }, 250);
+  }
+
+  closeBtn.addEventListener('click', closeModal);
+
+  modal.addEventListener('click', event => {
+    if (event.target === modal) closeModal();
+  });
+
+  cardBox?.addEventListener('click', event => {
+    event.stopPropagation();
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && modal.classList.contains('active')) {
+      closeModal();
+    }
+  });
+})();
+</script>
+
 </body>
 </html>
